@@ -1,36 +1,13 @@
 [
   {
-    "title": "Example — gentle morning wake-up",
-    "url": "https://www.youtube.com/watch?v=REPLACE-ME",
-    "channel": "Some Yoga Channel",
-    "durationMin": 20,
-    "style": "hatha",
-    "timeOfDay": ["morning"],
-    "tags": ["gentle", "full body", "no props"],
-    "notes": "Placeholder row so the app has something to show. Delete once you add your own.",
-    "favourite": true,
-    "added": "2026-08-30"
-  },
-  {
-    "title": "Example — long yin for hips",
-    "url": "https://www.youtube.com/watch?v=REPLACE-ME",
-    "channel": "Some Yoga Channel",
-    "durationMin": 55,
-    "style": "yin",
-    "timeOfDay": ["evening", "wind-down"],
-    "tags": ["hips", "deep stretch", "props"],
-    "notes": "Placeholder row. Delete once you add your own.",
-    "added": "2026-08-30"
-  },
-  {
-    "title": "Example — quick vinyasa flow",
-    "url": "https://www.youtube.com/watch?v=REPLACE-ME",
-    "channel": "Some Yoga Channel",
-    "durationMin": 12,
-    "style": "vinyasa",
-    "timeOfDay": ["morning", "midday"],
-    "tags": ["energising", "core"],
-    "notes": "Placeholder row. Delete once you add your own.",
-    "added": "2026-08-30"
-  }
+  "title": "Morning Yin",
+  "url": "https://youtu.be/QO8j6H6DrMA",
+  "channel": "Yoga with Kassandra",
+  "durationMin": 20,
+  "style": "yin",
+  "timeOfDay": [
+    "morning"
+  ],
+  "added": "2026-08-30"
+}
 ]
