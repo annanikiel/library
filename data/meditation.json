@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Example — 10 minute breath practice",
+    "url": "https://www.youtube.com/watch?v=REPLACE-ME",
+    "channel": "Some Meditation Channel",
+    "durationMin": 10,
+    "type": "breath",
+    "timeOfDay": ["morning"],
+    "tags": ["anxiety", "short"],
+    "notes": "Placeholder row so the app has something to show. Delete once you add your own.",
+    "added": "2026-08-30"
+  },
+  {
+    "title": "Example — body scan for sleep",
+    "url": "https://www.youtube.com/watch?v=REPLACE-ME",
+    "channel": "Some Meditation Channel",
+    "durationMin": 35,
+    "type": "body scan",
+    "timeOfDay": ["evening", "wind-down"],
+    "tags": ["sleep", "guided"],
+    "favourite": true,
+    "added": "2026-08-30"
+  }
+]

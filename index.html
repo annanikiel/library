@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Library</title>
+<meta name="description" content="A personal library of content worth coming back to.">
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧘</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <h1 class="brand">Library</h1>
+    <nav class="tabs" id="tabs" aria-label="Collections"></nav>
+    <button class="btn btn-primary" id="add-open" type="button">+ Add</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="blurb" id="blurb"></p>
+
+  <div class="controls">
+    <div class="search">
+      <input type="search" id="search" placeholder="Search title, channel, notes…" autocomplete="off" aria-label="Search">
+    </div>
+    <label class="sort">
+      <span>Sort</span>
+      <select id="sort">
+        <option value="added-desc">Recently added</option>
+        <option value="duration-asc">Shortest first</option>
+        <option value="duration-desc">Longest first</option>
+        <option value="title-asc">Title A–Z</option>
+      </select>
+    </label>
+    <label class="toggle">
+      <input type="checkbox" id="fav-only">
+      <span>★ Favourites</span>
+    </label>
+  </div>
+
+  <div id="facets" class="facets"></div>
+
+  <div class="resultbar">
+    <span id="count" class="count"></span>
+    <button class="btn btn-quiet" id="clear" type="button" hidden>Clear filters</button>
+  </div>
+
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty" hidden></div>
+</main>
+
+<footer class="wrap foot">
+  <span id="foot-links"></span>
+</footer>
+
+<!-- Add-entry dialog -->
+<dialog id="add-dialog" class="dialog">
+  <form method="dialog" class="dialog-head">
+    <h2 id="add-title">Add to Yoga</h2>
+    <button class="btn btn-quiet" value="cancel" aria-label="Close">✕</button>
+  </form>
+  <div class="dialog-body">
+    <div id="add-fields" class="fields"></div>
+    <details class="preview">
+      <summary>JSON for this entry</summary>
+      <pre id="add-preview"></pre>
+    </details>
+    <p class="hint">
+      Paste into the data file on GitHub. <strong>Copy whole file</strong> replaces the file contents
+      (select all in the GitHub editor, then paste) — that is the safe one on a phone.
+    </p>
+  </div>
+  <div class="dialog-foot">
+    <button class="btn" id="copy-entry" type="button">Copy entry</button>
+    <button class="btn btn-primary" id="copy-file" type="button">Copy whole file</button>
+    <a class="btn btn-link" id="edit-link" target="_blank" rel="noopener">Open on GitHub ↗</a>
+  </div>
+</dialog>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
