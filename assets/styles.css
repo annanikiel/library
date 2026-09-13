@@ -221,12 +221,14 @@ body {
   position: relative;
 }
 
+.thumb-link { display: block; width: 100%; height: 100%; }
 .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .dur {
   position: absolute;
   right: 8px;
   bottom: 8px;
+  pointer-events: none;
   background: rgba(0, 0, 0, .78);
   color: #fff;
   font-size: 12px;
@@ -271,6 +273,7 @@ body {
   position: absolute;
   top: 8px;
   left: 8px;
+  pointer-events: none;
   font-size: 15px;
   color: var(--star);
   text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
@@ -379,4 +382,105 @@ body {
   .facet-label { min-width: 100%; }
   .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .card-title { font-size: 14px; }
+
+  /* keep the sticky bar to two rows: brand + Add, then a swipeable tab strip */
+  .topbar-inner { gap: 10px; row-gap: 6px; }
+  .brand { font-size: 15px; }
+
+  .tabs {
+    order: 3;
+    flex: 0 0 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { white-space: nowrap; }
+
+  .progress-row { gap: 8px; }
+  .tick { width: 34px; height: 34px; }   /* comfortable thumb target */
+}
+
+
+/* ---------- progress: ticks, bar, status ---------- */
+
+.progress { margin: 0 0 18px; display: grid; gap: 10px; }
+
+.bar {
+  height: 7px;
+  border-radius: 999px;
+  background: var(--chip);
+  overflow: hidden;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width .25s ease;
+}
+
+.progress-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.progress-count { font-size: 14px; font-weight: 600; }
+.statuses { display: flex; gap: 5px; }
+.statuses .chip { font-size: 13px; padding: 4px 11px; }
+
+/* the tick box on a card */
+.tick {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, .9);
+  background: rgba(255, 255, 255, .55);
+  color: rgba(35, 32, 28, .35);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  backdrop-filter: blur(3px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
+  transition: background .15s ease, color .15s ease, transform .1s ease;
+}
+
+.tick:hover { background: rgba(255, 255, 255, .9); color: var(--ink); transform: scale(1.08); }
+
+/* done reads at a glance: solid mark, not a slightly different grey */
+.tick[aria-pressed="true"] {
+  background: #3f7d4e;
+  border-color: #ffffff;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.tick[aria-pressed="true"]:hover { background: #356843; color: #ffffff; }
+
+.card.is-done { opacity: .72; }
+.card.is-done .thumb-link { opacity: .5; }
+.card.is-done .card-title a {
+  color: var(--ink-soft);
+  text-decoration: line-through;
+  text-decoration-color: var(--line);
+}
+.card.is-done .day { background: var(--ink-soft); }
+
+.day {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  background: var(--accent);
+  padding: 2px 7px;
+  border-radius: 5px;
+  margin-right: 6px;
+  vertical-align: 2px;
 }
