@@ -30,6 +30,27 @@ const COLLECTIONS = [
       { key: 'tags', label: 'Tags', list: true },
     ],
   },
+  {
+    id: 'challenge',
+    label: '30 Day Challenge',
+    file: 'data/challenge.json',
+    blurb: "Morning Yoga Movement — Yoga with Kassandra's 30 day challenge, in order.",
+    playlist: 'https://www.youtube.com/playlist?list=PLW0v0k7UCVrlLpvX-rz-mrGCoElFpj44D',
+    ordered: true,    // entries carry `position`, so playlist order is offered
+    progress: true,   // tick boxes, remembered per device
+    facets: [
+      { key: 'tags', label: 'Focus', list: true },
+      { key: '_duration', label: 'Length' },
+    ],
+  },
+];
+
+const SORTS = [
+  ['position', 'Playlist order'],
+  ['added-desc', 'Recently added'],
+  ['duration-asc', 'Shortest first'],
+  ['duration-desc', 'Longest first'],
+  ['title-asc', 'Title A–Z'],
 ];
 
 const BUCKETS = [
@@ -46,6 +67,9 @@ const state = {
   sort: 'added-desc',
   favOnly: false,
   filters: {},          // { facetKey: Set(values) }
+  status: 'all',        // all | todo | done, for collections that track progress
+  done: new Set(),      // ids ticked off in the current collection
+  doneFor: null,        // which collection `done` was loaded for
 };
 
 const cache = new Map();  // collection id -> { items } | { error }
@@ -129,6 +153,44 @@ async function copyText(text, msg) {
   toast(msg);
 }
 
+/* ---------------- progress (per device) ----------------
+
+   Ticks live in localStorage, never in the repo: they are personal and they
+   change far too often to be worth a commit each. GitHub Pages user sites all
+   share one origin, hence the `library:` prefix on the key. */
+
+const storeKey = (colId) => `library:progress:v1:${colId}`;
+
+const itemId = (item) => item.id || youtubeId(item.url) || item.url || item.title;
+
+function loadDone(colId) {
+  try {
+    const raw = localStorage.getItem(storeKey(colId));
+    const arr = raw ? JSON.parse(raw) : [];
+    return new Set(Array.isArray(arr) ? arr : []);
+  } catch {
+    return new Set();   // private browsing, or storage disabled
+  }
+}
+
+function saveDone(colId, set) {
+  try {
+    localStorage.setItem(storeKey(colId), JSON.stringify([...set]));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function syncDone(col) {
+  if (state.doneFor !== col.id) {
+    state.done = loadDone(col.id);
+    state.doneFor = col.id;
+  }
+}
+
+const defaultSort = (col) => (col.ordered ? 'position' : 'added-desc');
+
 /* ---------------- data ---------------- */
 
 async function load(col) {
@@ -152,8 +214,9 @@ async function load(col) {
 function writeHash() {
   const p = new URLSearchParams();
   if (state.query) p.set('q', state.query);
-  if (state.sort !== 'added-desc') p.set('sort', state.sort);
+  if (state.sort !== defaultSort(collection())) p.set('sort', state.sort);
   if (state.favOnly) p.set('fav', '1');
+  if (state.status !== 'all') p.set('status', state.status);
   for (const [key, set] of Object.entries(state.filters)) {
     if (set && set.size) p.set(key, [...set].join('|'));
   }
@@ -170,8 +233,9 @@ function readHash() {
   state.filters = {};
   const p = new URLSearchParams(qs || '');
   state.query = p.get('q') || '';
-  state.sort = p.get('sort') || 'added-desc';
+  state.sort = p.get('sort') || defaultSort(collection());
   state.favOnly = p.get('fav') === '1';
+  state.status = ['todo', 'done'].includes(p.get('status')) ? p.get('status') : 'all';
   for (const facet of collection().facets) {
     const v = p.get(facet.key);
     if (v) state.filters[facet.key] = new Set(v.split('|'));
@@ -199,10 +263,17 @@ function matchesQuery(item) {
   return hay.includes(needle);
 }
 
+function matchesStatus(item) {
+  if (!collection().progress || state.status === 'all') return true;
+  const done = state.done.has(itemId(item));
+  return state.status === 'done' ? done : !done;
+}
+
 function visibleItems(items, skipKey) {
   const facets = collection().facets;
   return items.filter((it) =>
-    (!state.favOnly || it.favourite) && matchesQuery(it) && matchesFacets(it, facets, skipKey)
+    (!state.favOnly || it.favourite) && matchesStatus(it) && matchesQuery(it)
+    && matchesFacets(it, facets, skipKey)
   );
 }
 
@@ -210,6 +281,8 @@ function sortItems(items) {
   const list = [...items];
   const num = (v) => (typeof v === 'number' && !Number.isNaN(v) ? v : Infinity);
   switch (state.sort) {
+    case 'position':
+      return list.sort((a, b) => num(a.position) - num(b.position));
     case 'duration-asc':
       return list.sort((a, b) => num(a.durationMin) - num(b.durationMin));
     case 'duration-desc':
@@ -228,6 +301,40 @@ function renderTabs() {
     <button class="tab" role="tab" type="button" data-id="${c.id}"
             aria-selected="${c.id === state.collection}">${esc(c.label)}</button>
   `).join('');
+}
+
+function renderSort(col) {
+  const sel = $('#sort');
+  const opts = SORTS.filter(([v]) => v !== 'position' || col.ordered);
+  sel.innerHTML = opts.map(([v, l]) => `<option value="${v}">${esc(l)}</option>`).join('');
+  if (!opts.some(([v]) => v === state.sort)) state.sort = defaultSort(col);
+  sel.value = state.sort;
+}
+
+const STATUSES = [['all', 'All'], ['todo', 'To do'], ['done', 'Done']];
+
+function renderProgress(col, items) {
+  const host = $('#progress');
+  if (!col.progress) {
+    host.hidden = true;
+    host.innerHTML = '';
+    return;
+  }
+  const done = items.filter((i) => state.done.has(itemId(i))).length;
+  const pct = items.length ? Math.round((done / items.length) * 100) : 0;
+  host.hidden = false;
+  host.innerHTML = `
+    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${items.length}"
+         aria-valuenow="${done}" aria-label="Worked through"><span style="width:${pct}%"></span></div>
+    <div class="progress-row">
+      <strong class="progress-count">${done} of ${items.length} done</strong>
+      <span class="statuses">
+        ${STATUSES.map(([v, l]) => `
+          <button class="chip" type="button" data-status="${v}"
+                  aria-pressed="${state.status === v}">${esc(l)}</button>`).join('')}
+      </span>
+      ${done ? '<button class="btn btn-quiet" id="reset-progress" type="button">Reset</button>' : ''}
+    </div>`;
 }
 
 function renderFacets(items) {
@@ -254,23 +361,34 @@ function renderFacets(items) {
 }
 
 function cardHTML(item) {
+  const col = collection();
   const vid = youtubeId(item.url);
   const thumb = vid ? `https://i.ytimg.com/vi/${vid}/mqdefault.jpg` : null;
   const dur = formatDuration(item.durationMin);
+  const id = itemId(item);
+  const done = col.progress && state.done.has(id);
   const chips = collection().facets
     .filter((f) => f.key !== '_duration' && f.key !== 'tags')
     .flatMap((f) => valuesOf(item, f).map((v) => ({ facet: f.key, value: v, primary: true })))
     .concat((item.tags || []).map((v) => ({ facet: 'tags', value: v, primary: false })));
 
+  // The tick sits outside the link so that ticking never opens the video.
   return `
-    <article class="card">
-      <a class="thumb" href="${esc(item.url)}" target="_blank" rel="noopener">
-        ${thumb ? `<img src="${esc(thumb)}" alt="" loading="lazy">` : ''}
+    <article class="card ${done ? 'is-done' : ''}">
+      <div class="thumb">
+        <a class="thumb-link" href="${esc(item.url)}" target="_blank" rel="noopener">
+          ${thumb ? `<img src="${esc(thumb)}" alt="" loading="lazy">` : ''}
+        </a>
         ${item.favourite ? '<span class="star" title="Favourite">★</span>' : ''}
         ${dur ? `<span class="dur">${esc(dur)}</span>` : ''}
-      </a>
+        ${col.progress ? `
+          <button class="tick" type="button" data-id="${esc(id)}" aria-pressed="${done}"
+                  title="${done ? 'Mark as not done' : 'Mark as done'}"
+                  aria-label="${done ? 'Mark as not done' : 'Mark as done'}">✓</button>` : ''}
+      </div>
       <div class="card-body">
         <h3 class="card-title">
+          ${item.day != null ? `<span class="day">Day ${esc(item.day)}</span>` : ''}
           <a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.title)}</a>
         </h3>
         ${item.channel ? `<div class="meta">${esc(item.channel)}</div>` : ''}
@@ -287,14 +405,19 @@ function cardHTML(item) {
 
 async function render() {
   const col = collection();
+  syncDone(col);
   renderTabs();
+  renderSort(col);
   $('#blurb').textContent = col.blurb;
   $('#search').value = state.query;
-  $('#sort').value = state.sort;
   $('#fav-only').checked = state.favOnly;
   $('#foot-links').innerHTML =
     `Data lives in <a href="https://github.com/${REPO.owner}/${REPO.name}/blob/${REPO.branch}/${col.file}"
-      target="_blank" rel="noopener"><code>${esc(col.file)}</code></a>.`;
+      target="_blank" rel="noopener"><code>${esc(col.file)}</code></a>.`
+    + (col.playlist
+      ? ` From <a href="${esc(col.playlist)}" target="_blank" rel="noopener">this playlist ↗</a>.`
+      : '')
+    + (col.progress ? ' Ticks are saved on this device only.' : '');
 
   const data = await load(col);
   const grid = $('#grid');
@@ -302,6 +425,7 @@ async function render() {
 
   if (data.error) {
     $('#facets').innerHTML = '';
+    $('#progress').hidden = true;
     $('#count').textContent = '';
     $('#clear').hidden = true;
     grid.innerHTML = '';
@@ -314,9 +438,11 @@ async function render() {
     return;
   }
 
+  renderProgress(col, data.items);
   renderFacets(data.items);
   const shown = sortItems(visibleItems(data.items));
-  const active = Object.values(state.filters).some((s) => s && s.size) || state.query || state.favOnly;
+  const active = Object.values(state.filters).some((s) => s && s.size)
+    || state.query || state.favOnly || state.status !== 'all';
 
   $('#count').textContent = `${shown.length} of ${data.items.length}`;
   $('#clear').hidden = !active;
@@ -325,7 +451,11 @@ async function render() {
   empty.hidden = shown.length > 0;
   if (!shown.length) {
     empty.innerHTML = data.items.length
-      ? '<p>Nothing matches those filters.</p>'
+      ? (state.status === 'done'
+        ? '<p>Nothing ticked off yet.</p>'
+        : state.status === 'todo'
+          ? '<p>All done — the whole list is ticked off. 🎉</p>'
+          : '<p>Nothing matches those filters.</p>')
       : `<p>Nothing here yet — hit <strong>+ Add</strong>, or edit
          <code>${esc(col.file)}</code> on GitHub.</p>`;
   }
@@ -432,6 +562,14 @@ function openAdd() {
 
 /* ---------------- events ---------------- */
 
+function toggleDone(id) {
+  if (state.done.has(id)) state.done.delete(id); else state.done.add(id);
+  if (!saveDone(collection().id, state.done)) {
+    toast("Couldn't save — private browsing?");
+  }
+  render();
+}
+
 function toggleFilter(key, value) {
   const set = state.filters[key] || new Set();
   if (set.has(value)) set.delete(value); else set.add(value);
@@ -448,6 +586,8 @@ function init() {
     state.collection = tab.dataset.id;
     state.filters = {};
     state.query = '';
+    state.status = 'all';
+    state.sort = defaultSort(collection());
     render();
   });
 
@@ -457,8 +597,25 @@ function init() {
   });
 
   $('#grid').addEventListener('click', (e) => {
+    const tick = e.target.closest('.tick');
+    if (tick) { toggleDone(tick.dataset.id); return; }
     const tag = e.target.closest('.tag');
     if (tag) toggleFilter(tag.dataset.facet, tag.dataset.value);
+  });
+
+  $('#progress').addEventListener('click', (e) => {
+    const status = e.target.closest('[data-status]');
+    if (status) {
+      state.status = status.dataset.status;
+      render();
+      return;
+    }
+    if (e.target.closest('#reset-progress')) {
+      if (!confirm('Clear every tick in this list? It only affects this device.')) return;
+      state.done = new Set();
+      saveDone(collection().id, state.done);
+      render();
+    }
   });
 
   let debounce;
@@ -475,6 +632,7 @@ function init() {
     state.filters = {};
     state.query = '';
     state.favOnly = false;
+    state.status = 'all';
     render();
   });
 
