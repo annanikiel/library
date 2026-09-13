@@ -7,8 +7,11 @@ themselves.
 
 - **Yoga** — YouTube classes, tagged by style, time of day and length.
 - **Meditation** — same idea, with `type` instead of `style`.
-- **30 Day Challenge** — Yoga with Kassandra's *Morning Yoga Movement* playlist
-  in playlist order, with tick boxes to track what you have worked through.
+- **Morning Challenge** — Yoga with Kassandra's *Morning Yoga Movement* playlist
+  (~10 min a day) in playlist order, with tick boxes to track what you have
+  worked through.
+- **Evening Challenge** — her *Evening Yoga Movement* playlist (~15 min a day),
+  same treatment. Each challenge tracks its progress separately.
 
 ## Running it
 
@@ -74,8 +77,9 @@ URL, so any view can be bookmarked or sent to someone.
 
 ## Ticking things off
 
-The challenge tab has a tick box on every card, a progress bar, and All / To do
-/ Done filters.
+Each challenge tab has a tick box on every card, a progress bar, and All / To do
+/ Done filters. The two challenges are tracked independently — ticking a morning
+video does not touch the evening list.
 
 Ticks are stored in the browser's `localStorage`, **not** in the repo. That
 means:
@@ -97,6 +101,12 @@ loses that one tick, as it should.
 **Reset** clears every tick in the current list, after a confirm, on that device
 only. Storage keys look like `library:progress:v1:challenge` — prefixed because
 every GitHub Pages site under `annanikiel.github.io` shares one origin.
+
+> **Do not rename a collection's `id` once people have ticked things off.** The
+> id is part of the storage key, so renaming it orphans saved progress. That is
+> why the morning challenge keeps `id: 'challenge'` even though its file is now
+> `data/challenge-morning.json` — labels and filenames are safe to change, the
+> id is not.
 
 To track progress on another tab, add `progress: true` to its entry in
 `COLLECTIONS`.
@@ -133,12 +143,16 @@ Three optional flags on a collection:
 | `ordered: true` | Entries have `position`; adds the "Playlist order" sort and makes it the default. |
 | `playlist: '<url>'` | Adds a link back to the source playlist in the footer. |
 
-### Swapping in a different playlist
+### Adding or swapping a playlist
 
-`data/challenge.json` holds one playlist. To follow a different one, replace
-that file (keeping the same shape, with `position` counting from 1) and update
-the `label`, `blurb` and `playlist` fields of the `challenge` collection. Ticks
-are keyed on video id, so a new playlist simply starts empty.
+One JSON file holds one playlist, in `position` order counting from 1. To add
+another, drop in `data/<name>.json` and register a collection with
+`ordered: true`, `progress: true` and the `playlist` link — the two challenge
+tabs are exactly that, differing only in their data file.
+
+To point an existing tab at a different playlist, replace its file and update
+its `label`, `blurb` and `playlist` fields, but leave the `id` alone. Ticks are
+keyed on video id, so a new playlist simply starts empty.
 
 ## Files
 
@@ -149,6 +163,8 @@ assets/app.js       collection config + all behaviour
 data/*.json         the content itself
 ```
 
-`data/challenge.json` was built from the playlist page: titles tidied out of
-YouTube's shouty caps, durations rounded to whole minutes, and a `tags` focus
-list added per day so you can pull out "back" or "energy" days.
+The two `data/challenge-*.json` files were built from their playlist pages:
+titles tidied out of YouTube's shouty caps, durations rounded to whole minutes,
+and a `tags` focus list added per day so you can pull out "back", "sleep" or
+"energy" days. On the evening list the videos share a lot of near-identical
+titles, so the descriptive half of each one is kept as `notes` under the title.

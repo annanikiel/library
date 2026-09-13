@@ -30,14 +30,31 @@ const COLLECTIONS = [
       { key: 'tags', label: 'Tags', list: true },
     ],
   },
+  // NB: the id stays 'challenge' rather than becoming 'challenge-morning'.
+  // Ticks are stored under `library:progress:v1:<id>`, so renaming the id would
+  // orphan progress already saved on a device. The file and label are free to
+  // change; the id is not.
   {
     id: 'challenge',
-    label: '30 Day Challenge',
-    file: 'data/challenge.json',
+    label: 'Morning Challenge',
+    file: 'data/challenge-morning.json',
     blurb: "Morning Yoga Movement — Yoga with Kassandra's 30 day challenge, in order.",
     playlist: 'https://www.youtube.com/playlist?list=PLW0v0k7UCVrlLpvX-rz-mrGCoElFpj44D',
     ordered: true,    // entries carry `position`, so playlist order is offered
     progress: true,   // tick boxes, remembered per device
+    facets: [
+      { key: 'tags', label: 'Focus', list: true },
+      { key: '_duration', label: 'Length' },
+    ],
+  },
+  {
+    id: 'challenge-evening',
+    label: 'Evening Challenge',
+    file: 'data/challenge-evening.json',
+    blurb: 'Evening Yoga Movement — 15 minutes of bedtime yoga, 30 days, in order.',
+    playlist: 'https://www.youtube.com/playlist?list=PLW0v0k7UCVrngDE2PN5WOc8hzwYhAb2U9',
+    ordered: true,
+    progress: true,
     facets: [
       { key: 'tags', label: 'Focus', list: true },
       { key: '_duration', label: 'Length' },
