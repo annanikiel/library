@@ -1,0 +1,414 @@
+[
+  {
+    "title": "Evening Yoga Challenge: 15 min of Bedtime Yoga for 30 Days",
+    "url": "https://www.youtube.com/watch?v=hyFB2QRgXwE",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 7,
+    "position": 1,
+    "day": 0,
+    "tags": [
+      "intro"
+    ]
+  },
+  {
+    "title": "Guided Evening Meditation with Positive Affirmations",
+    "url": "https://www.youtube.com/watch?v=0ItYBQK2yHw",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 7,
+    "position": 2,
+    "tags": [
+      "meditation",
+      "affirmations",
+      "bonus"
+    ]
+  },
+  {
+    "title": "Evening Yoga",
+    "url": "https://www.youtube.com/watch?v=P295KQMmkh8",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 17,
+    "position": 3,
+    "day": 1,
+    "tags": [
+      "flexibility",
+      "relaxation"
+    ],
+    "notes": "Yoga for flexibility and relaxation"
+  },
+  {
+    "title": "Yin Yoga Stretches",
+    "url": "https://www.youtube.com/watch?v=rD3B5q9FMH0",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 19,
+    "position": 4,
+    "day": 2,
+    "tags": [
+      "yin",
+      "beginners"
+    ],
+    "notes": "Evening yoga for beginners"
+  },
+  {
+    "title": "Evening Yoga Class",
+    "url": "https://www.youtube.com/watch?v=DiX--eyFZTA",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 16,
+    "position": 5,
+    "day": 3,
+    "tags": [
+      "sleep"
+    ],
+    "notes": "Yoga stretches before bed"
+  },
+  {
+    "title": "Yoga for Sleep",
+    "url": "https://www.youtube.com/watch?v=8w3TiyEC-DU",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 17,
+    "position": 6,
+    "day": 4,
+    "tags": [
+      "sleep"
+    ],
+    "notes": "Evening yoga flow"
+  },
+  {
+    "title": "Bedtime Yoga",
+    "url": "https://www.youtube.com/watch?v=AZ-o2ak-zW8",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 18,
+    "position": 7,
+    "day": 5,
+    "tags": [
+      "sleep",
+      "relaxation"
+    ],
+    "notes": "Relaxing yoga stretches before bed"
+  },
+  {
+    "title": "Sleep Yoga",
+    "url": "https://www.youtube.com/watch?v=-Nd3UaLTxJ8",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 17,
+    "position": 8,
+    "day": 6,
+    "tags": [
+      "sleep",
+      "yin",
+      "sore muscles"
+    ],
+    "notes": "Yin yoga for sore muscles"
+  },
+  {
+    "title": "Evening Yoga Stretches",
+    "url": "https://www.youtube.com/watch?v=u7rd78aPtZM",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 15,
+    "position": 9,
+    "day": 7,
+    "tags": [
+      "sleep",
+      "beginners"
+    ],
+    "notes": "Bedtime yoga for beginners"
+  },
+  {
+    "title": "Yoga for Flexibility",
+    "url": "https://www.youtube.com/watch?v=Be2fVNWq6Uw",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 15,
+    "position": 10,
+    "day": 8,
+    "tags": [
+      "flexibility",
+      "full body"
+    ],
+    "notes": "Evening yoga full body"
+  },
+  {
+    "title": "Evening Yoga Flow",
+    "url": "https://www.youtube.com/watch?v=3NHI7BW8_v0",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 17,
+    "position": 11,
+    "day": 9,
+    "tags": [
+      "hips",
+      "hamstrings"
+    ],
+    "notes": "Hips & hamstrings stretch"
+  },
+  {
+    "title": "Yin Yoga Class",
+    "url": "https://www.youtube.com/watch?v=wrQadkdoe9I",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 17,
+    "position": 12,
+    "day": 10,
+    "tags": [
+      "yin",
+      "beginners"
+    ],
+    "notes": "Evening yoga for beginners"
+  },
+  {
+    "title": "Evening Yoga Stretches",
+    "url": "https://www.youtube.com/watch?v=4W9q0tJdnFc",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 15,
+    "position": 13,
+    "day": 11,
+    "tags": [
+      "flexibility",
+      "full body"
+    ],
+    "notes": "Full body flexibility yoga"
+  },
+  {
+    "title": "Yoga for Sleep",
+    "url": "https://www.youtube.com/watch?v=Ba2NiKbI9DY",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 15,
+    "position": 14,
+    "day": 12,
+    "tags": [
+      "sleep",
+      "hips",
+      "back"
+    ],
+    "notes": "Yoga for hips & lower back"
+  },
+  {
+    "title": "Evening Yoga",
+    "url": "https://www.youtube.com/watch?v=CyxYtdEX2aM",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 16,
+    "position": 15,
+    "day": 13,
+    "tags": [
+      "flexibility"
+    ],
+    "notes": "Yoga for flexibility"
+  },
+  {
+    "title": "Sleep Yoga",
+    "url": "https://www.youtube.com/watch?v=xoAvp68A2m0",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 17,
+    "position": 16,
+    "day": 14,
+    "tags": [
+      "sleep",
+      "yin",
+      "full body",
+      "relaxation"
+    ],
+    "notes": "Full body relaxing yin yoga"
+  },
+  {
+    "title": "Evening Yoga Flow",
+    "url": "https://www.youtube.com/watch?v=KZgokMUrq08",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 15,
+    "position": 17,
+    "day": 15,
+    "tags": [
+      "sleep"
+    ],
+    "notes": "Before bed yoga"
+  },
+  {
+    "title": "Yoga for Flexibility",
+    "url": "https://www.youtube.com/watch?v=5mGBw5wlyHY",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 16,
+    "position": 18,
+    "day": 16,
+    "tags": [
+      "flexibility"
+    ],
+    "notes": "Evening yoga class"
+  },
+  {
+    "title": "Evening Yoga Flow",
+    "url": "https://www.youtube.com/watch?v=meYaItkP3Lk",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 15,
+    "position": 19,
+    "day": 17,
+    "tags": [
+      "deep stretch"
+    ],
+    "notes": "Deep stretches"
+  },
+  {
+    "title": "Evening Yin Yoga",
+    "url": "https://www.youtube.com/watch?v=QgSKOyXwJTc",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 18,
+    "position": 20,
+    "day": 18,
+    "tags": [
+      "yin",
+      "sleep"
+    ],
+    "notes": "Yoga stretches before bed"
+  },
+  {
+    "title": "Evening Yoga Stretches",
+    "url": "https://www.youtube.com/watch?v=fXayji0vLTI",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 15,
+    "position": 21,
+    "day": 19,
+    "tags": [
+      "full body"
+    ],
+    "notes": "Evening yoga flow"
+  },
+  {
+    "title": "Evening Yoga Class",
+    "url": "https://www.youtube.com/watch?v=vlksFiaWJe0",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 18,
+    "position": 22,
+    "day": 20,
+    "tags": [
+      "sleep",
+      "relaxation"
+    ],
+    "notes": "Relaxing yoga stretches before bed"
+  },
+  {
+    "title": "Evening Yoga",
+    "url": "https://www.youtube.com/watch?v=y2SbPDGBxGY",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 16,
+    "position": 23,
+    "day": 21,
+    "tags": [
+      "hips",
+      "back"
+    ],
+    "notes": "Yoga for hips & lower back"
+  },
+  {
+    "title": "Yin Yoga for Sleep",
+    "url": "https://www.youtube.com/watch?v=iqa4FxGmVxA",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 16,
+    "position": 24,
+    "day": 22,
+    "tags": [
+      "yin",
+      "sleep",
+      "flexibility",
+      "relaxation"
+    ],
+    "notes": "Yoga for flexibility & relaxation"
+  },
+  {
+    "title": "Evening Yoga Flow",
+    "url": "https://www.youtube.com/watch?v=18374DQy1BA",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 15,
+    "position": 25,
+    "day": 23,
+    "tags": [
+      "sleep",
+      "full body"
+    ],
+    "notes": "Bedtime yoga full body"
+  },
+  {
+    "title": "Evening Yoga",
+    "url": "https://www.youtube.com/watch?v=yb-PT-5CVPk",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 15,
+    "position": 26,
+    "day": 24,
+    "tags": [
+      "sleep",
+      "relaxation"
+    ],
+    "notes": "Wind down yoga flow"
+  },
+  {
+    "title": "Before Bed Yoga",
+    "url": "https://www.youtube.com/watch?v=kS0xDanGfmU",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 16,
+    "position": 27,
+    "day": 25,
+    "tags": [
+      "sleep",
+      "full body",
+      "relaxation"
+    ],
+    "notes": "Full body relaxing yoga"
+  },
+  {
+    "title": "Yoga for Flexibility",
+    "url": "https://www.youtube.com/watch?v=7yiV2mYBAy4",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 19,
+    "position": 28,
+    "day": 26,
+    "tags": [
+      "yin",
+      "flexibility"
+    ],
+    "notes": "Bedtime yin yoga class"
+  },
+  {
+    "title": "Evening Yoga",
+    "url": "https://www.youtube.com/watch?v=ggns7vm6ULI",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 17,
+    "position": 29,
+    "day": 27,
+    "tags": [
+      "sore muscles"
+    ],
+    "notes": "Yoga for sore muscles"
+  },
+  {
+    "title": "Evening Yoga Class",
+    "url": "https://www.youtube.com/watch?v=pt6apYT8b7Y",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 16,
+    "position": 30,
+    "day": 28,
+    "tags": [
+      "flexibility",
+      "relaxation"
+    ],
+    "notes": "Yoga for flexibility & relaxation"
+  },
+  {
+    "title": "Yoga for Sleep",
+    "url": "https://www.youtube.com/watch?v=j5Y9Ay6xeXA",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 16,
+    "position": 31,
+    "day": 29,
+    "tags": [
+      "sleep"
+    ],
+    "notes": "Yoga stretches before bed"
+  },
+  {
+    "title": "Yin Yoga Stretches",
+    "url": "https://www.youtube.com/watch?v=duyd-RJeqcU",
+    "channel": "Yoga with Kassandra",
+    "durationMin": 19,
+    "position": 32,
+    "day": 30,
+    "tags": [
+      "yin",
+      "sleep",
+      "relaxation"
+    ],
+    "notes": "Relaxing yoga before bedtime"
+  }
+]
