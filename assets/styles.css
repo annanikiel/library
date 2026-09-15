@@ -383,21 +383,24 @@ body {
   .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .card-title { font-size: 14px; }
 
-  /* keep the sticky bar to two rows: brand + Add, then a swipeable tab strip */
+  /* Brand + Add on the first row, then the tabs on their own rows below.
+     These wrap rather than scroll sideways: a horizontal strip hid the last
+     tab off the right edge with nothing on screen to say it was there. */
   .topbar-inner { gap: 10px; row-gap: 6px; }
   .brand { font-size: 15px; }
 
   .tabs {
     order: 3;
     flex: 0 0 100%;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
+    flex-wrap: wrap;
+    gap: 6px;
   }
 
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab { white-space: nowrap; }
+  .tab {
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
 
   .progress-row { gap: 8px; }
   .tick { width: 34px; height: 34px; }   /* comfortable thumb target */
