@@ -157,17 +157,69 @@ body {
 
 /* ---------- facets ---------- */
 
-.facets { display: grid; gap: 10px; margin-bottom: 18px; }
+/* Filters are collapsed rows in one panel; open one to reveal its chips. */
+.facets {
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  overflow: hidden;
+}
 
-.facet { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.facets:empty { display: none; }
+.facet + .facet { border-top: 1px solid var(--line); }
 
 .facet-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  cursor: pointer;
+  list-style: none;
   font-size: 12px;
   letter-spacing: .09em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  min-width: 96px;
-  padding-top: 4px;
+  user-select: none;
+}
+
+.facet-label::-webkit-details-marker { display: none; }
+.facet-label:hover { color: var(--ink); background: var(--chip); }
+.facet-name { font-weight: 600; }
+
+.opt-count {
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: .6;
+}
+
+.sel {
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 600;
+  background: var(--chip-on);
+  color: var(--bg);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.chev {
+  width: 10px;
+  height: 6px;
+  margin-left: auto;
+  flex: none;
+  transition: transform .15s ease;
+}
+
+.facet[open] > .facet-label .chev { transform: rotate(180deg); }
+
+.facet-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 2px 14px 13px;
 }
 
 .chip {
@@ -379,7 +431,6 @@ body {
 }
 
 @media (max-width: 560px) {
-  .facet-label { min-width: 100%; }
   .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .card-title { font-size: 14px; }
 
