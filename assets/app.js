@@ -85,6 +85,7 @@ const state = {
   favOnly: false,
   filters: {},          // { facetKey: Set(values) }
   status: 'all',        // all | todo | done, for collections that track progress
+  openFacets: new Set(),// facet rows the reader has expanded
   done: new Set(),      // ids ticked off in the current collection
   doneFor: null,        // which collection `done` was loaded for
 };
@@ -354,6 +355,15 @@ function renderProgress(col, items) {
     </div>`;
 }
 
+const CHEVRON =
+  '<svg class="chev" viewBox="0 0 10 6" aria-hidden="true">'
+  + '<path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"'
+  + ' stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/* Each facet is a collapsed row until opened, so a long tag list does not push
+   the videos off the first screen. A row stays open once opened — every chip
+   click re-renders this block, and collapsing under the reader's finger would
+   make filtering unusable. */
 function renderFacets(items) {
   const host = $('#facets');
   host.innerHTML = collection().facets.map((facet) => {
@@ -366,14 +376,26 @@ function renderFacets(items) {
       if (!options.some((o) => o.value === v)) options.push({ value: v, count: 0 });
     }
     if (!options.length) return '';
+
+    const open = state.openFacets.has(facet.key) || selected.size > 0;
+    if (open) state.openFacets.add(facet.key);
+
     return `
-      <div class="facet">
-        <span class="facet-label">${esc(facet.label)}</span>
-        ${options.map((o) => `
-          <button class="chip" type="button" data-facet="${esc(facet.key)}" data-value="${esc(o.value)}"
-                  aria-pressed="${selected.has(o.value)}">${esc(o.value)}<span class="n">${o.count}</span></button>
-        `).join('')}
-      </div>`;
+      <details class="facet" data-facet="${esc(facet.key)}"${open ? ' open' : ''}>
+        <summary class="facet-label">
+          <span class="facet-name">${esc(facet.label)}</span>
+          ${selected.size
+            ? `<span class="sel">${selected.size} selected</span>`
+            : `<span class="opt-count">${options.length}</span>`}
+          ${CHEVRON}
+        </summary>
+        <div class="facet-chips">
+          ${options.map((o) => `
+            <button class="chip" type="button" data-facet="${esc(facet.key)}" data-value="${esc(o.value)}"
+                    aria-pressed="${selected.has(o.value)}">${esc(o.value)}<span class="n">${o.count}</span></button>
+          `).join('')}
+        </div>
+      </details>`;
   }).join('');
 }
 
@@ -604,6 +626,7 @@ function init() {
     state.filters = {};
     state.query = '';
     state.status = 'all';
+    state.openFacets.clear();
     state.sort = defaultSort(collection());
     render();
   });
@@ -612,6 +635,13 @@ function init() {
     const chip = e.target.closest('.chip');
     if (chip) toggleFilter(chip.dataset.facet, chip.dataset.value);
   });
+
+  $('#facets').addEventListener('toggle', (e) => {
+    const row = e.target.closest('.facet');
+    if (!row) return;
+    if (row.open) state.openFacets.add(row.dataset.facet);
+    else state.openFacets.delete(row.dataset.facet);
+  }, true);
 
   $('#grid').addEventListener('click', (e) => {
     const tick = e.target.closest('.tick');

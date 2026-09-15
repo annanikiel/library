@@ -71,6 +71,11 @@ the JSON, so writing `"style": "kundalini"` makes a Kundalini chip appear. The
 `order` lists in `assets/app.js` only decide the order of the values already
 known; anything new is appended alphabetically.
 
+Each filter row is collapsed until you open it, so a long tag list does not
+push the videos off the first screen. A row opens automatically when something
+in it is selected, and stays open while you pick chips; the summary shows how
+many values are active.
+
 Filters combine as OR within a row and AND across rows — *(yin or restorative)
 and evening and under 30 min*. The current tab, search and filters live in the
 URL, so any view can be bookmarked or sent to someone.
